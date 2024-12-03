@@ -1,5 +1,5 @@
 import operator
-import hashlib
+import blake3
 
 # Define constants
 UINT256_MAX = 2**256 - 1
@@ -9,8 +9,7 @@ def uint256(n):
 
 # External function for creating function selectors
 def string_to_selector(s):
-    # Convert string to function selector by taking the first 4 bytes of SHA-3 hash
-    h = hashlib.sha3_256(s.encode('utf-8')).digest()[:4]  # Use SHA-3 for Solidity compatibility
+    h = blake3.blake3(s.encode('utf-8')).digest()[:4]
     return int.from_bytes(h, 'big')
 
 class TinyVM:
